@@ -14,13 +14,16 @@ This repository provides a PyTorch implementation of image generation using **Fl
 The MNIST dataset is used for training. **Figure 1** shows the original images in the dataset. **Figure 2** is the process for adding noise. **Figure 3** shows the generated images.
 
 **Figure 1**
-![Figure 1](figure_1.png)
+
+![Figure 1](./Figure_1.png)
 
 **Figure 2**
-![Figure 2](figure_2.png)
+
+![Figure 2](./Figure_2.png)
 
 **Figure 3**
-![Figure 3](figure_3.png)
+
+![Figure 3](./Figure_3.png)
 
 ## Usage
 
