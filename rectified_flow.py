@@ -164,10 +164,10 @@ def step(
 @torch.no_grad()
 def generate(
     model: nn.Module,
+    x0: torch.Tensor,
     y: torch.Tensor,
     num_steps: int = 50,
     cfg_scale: Optional[float] = None,
-    img_shape: Tuple[int, int, int] = (3, 28, 28)
 ) -> torch.Tensor:
     """Full generation loop.
 
@@ -177,6 +177,7 @@ def generate(
 
     Args:
         model: The FlowMatchingModel.
+        x0: Initial noised images [B, C, H, W].
         y: Class labels [B].
         num_steps: Number of sampling steps.
         cfg_scale: Optional classifier-free guidance scale.
@@ -185,11 +186,10 @@ def generate(
     Returns:
         Generated images [B, C, H, W].
     """
-    batch_size = y.shape[0]
     device = next(model.parameters()).device
 
     # 1. Initialize noise x_0
-    x = torch.randn(batch_size, *img_shape, device=device)
+    x = x0.to(device)
 
     # 2. Create time schedule
     # t goes from 0 to 1. We need num_steps intervals.

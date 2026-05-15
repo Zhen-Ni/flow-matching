@@ -7,6 +7,7 @@ This repository provides a PyTorch implementation of image generation using **Fl
 - **DiT Architecture**: Implements the Diffusion Transformer (DiT) architecture with AdaLN-Zero conditioning blocks.
 - **Rectified Flow**: Includes the core logic for Flow Matching, such as Logit-Normal timestep sampling and Heun's 2nd order ODE solver for sampling.
 - **Classifier-Free Guidance**: Supports CFG for improved generation quality.
+- **Reflow**: A student model is trained using reflow for generating the images with fewer steps.
 - **Modular Design**: Clean separation of model components (`image_models.py`), algorithm logic (`rectified_flow.py`), and training utilities (`trainer.py`).
 
 ## Demos
@@ -24,6 +25,12 @@ The MNIST dataset is used for training. **Figure 1** shows the original images i
 **Figure 3**
 
 ![Figure 3](./Figure_3.png)
+
+Reflow is used for few-steps generation. The generated figures are shown in **Figure 4**.
+
+**Figure 4**
+
+![Figure 4](./Figure_4.png)
 
 ## Usage
 

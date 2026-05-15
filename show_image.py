@@ -70,8 +70,9 @@ def show_generation(
         model: torch.nn.Module,
         labels: list[int],
         cfg_scale: float = 3.0,
+        num_steps: int = 20,
         img_size: tuple[int, int, int] = (1, 28, 28),
-        n_cols: int | None = None
+        n_cols: int | None = None,
 ):
     """Generate and display images for specified labels using DDPM.
 
@@ -79,6 +80,7 @@ def show_generation(
         generator: DitGenerator instance.
         labels: List of labels to generate.
         cfg_scale: CFG scale.
+        num_steps: Number of steps for generation.
         img_size: Image size.
         n_cols: Number of columns in the plot.
     """
@@ -99,9 +101,9 @@ def show_generation(
     device=next(iter(model.parameters())).device
     imgs = generate(model,
                     y=torch.tensor(labels).to(device),
+                    x0=torch.randn([n_images]+list(img_size)),
                     cfg_scale=cfg_scale,
-                    img_shape=img_size,
-                    num_steps=20
+                    num_steps=num_steps
                     )
                     
     
@@ -163,7 +165,33 @@ if __name__ == '__main__':
         show_generation(
             model,
             labels=labels,
-            n_cols=4
+            n_cols=4,
+        )
+
+    else:
+        print(f"Error: Model file '{model_path}' not found.")
+        print("Skipping generation visualization.")
+
+    model_path = 'reflow_best.th'
+    if os.path.exists(model_path):
+        model = torch.load(
+            model_path,
+            map_location=device,
+            weights_only=False
+        )
+        model.eval()
+        print(f"Model loaded from {model_path}")
+
+        # Generate labels 0-9 and two unconditional (label 10)
+        labels = list(range(10)) + [10, 10]
+        
+        print("Showing reflow generation...")
+        show_generation(
+            model,
+            labels=labels,
+            n_cols=4,
+            cfg_scale=None,
+            num_steps=5
         )
 
     else:
